@@ -339,11 +339,9 @@
             verticalSwiping: d("vertical") ? true : false,
             swipeToSlide: (d('swipetoslide') ? true : false),
             prevArrow: d("prev-arrow") ?
-                prevButton :
-                '<button type="button" class="slick-prev"><i class="far fa-arrow-left"></i></button>',
+                prevButton : '<button type="button" class="slick-prev"><i class="far fa-arrow-left"></i></button>',
             nextArrow: d("next-arrow") ?
-                nextButton :
-                '<button type="button" class="slick-next"><i class="far fa-arrow-right"></i></button>',
+                nextButton : '<button type="button" class="slick-next"><i class="far fa-arrow-right"></i></button>',
             rtl: $("html").attr("dir") == "rtl" ? true : false,
             responsive: [{
                     breakpoint: 1600,
@@ -351,8 +349,7 @@
                         arrows: d("xl-arrows") ? true : false,
                         dots: d("xl-dots") ? true : false,
                         slidesToShow: d("xl-slide-show") ?
-                            d("xl-slide-show") :
-                            d("slide-show"),
+                            d("xl-slide-show") : d("slide-show"),
                         centerMode: d("xl-center-mode") ? true : false,
                         centerPadding: "0",
                     },
@@ -363,8 +360,7 @@
                         arrows: d("ml-arrows") ? true : false,
                         dots: d("ml-dots") ? true : false,
                         slidesToShow: d("ml-slide-show") ?
-                            d("ml-slide-show") :
-                            d("slide-show"),
+                            d("ml-slide-show") : d("slide-show"),
                         centerMode: d("ml-center-mode") ? true : false,
                         centerPadding: 0,
                     },
@@ -375,11 +371,9 @@
                         arrows: d("lg-arrows") ? true : false,
                         dots: d("lg-dots") ? true : false,
                         slidesToShow: d("lg-slide-show") ?
-                            d("lg-slide-show") :
-                            d("slide-show"),
+                            d("lg-slide-show") : d("slide-show"),
                         centerMode: d("lg-center-mode") ?
-                            d("lg-center-mode") :
-                            false,
+                            d("lg-center-mode") : false,
                         centerPadding: 0,
                     },
                 },
@@ -389,11 +383,9 @@
                         arrows: d("md-arrows") ? true : false,
                         dots: d("md-dots") ? true : false,
                         slidesToShow: d("md-slide-show") ?
-                            d("md-slide-show") :
-                            1,
+                            d("md-slide-show") : 1,
                         centerMode: d("md-center-mode") ?
-                            d("md-center-mode") :
-                            false,
+                            d("md-center-mode") : false,
                         centerPadding: 0,
                     },
                 },
@@ -403,11 +395,9 @@
                         arrows: d("sm-arrows") ? true : false,
                         dots: d("sm-dots") ? true : false,
                         slidesToShow: d("sm-slide-show") ?
-                            d("sm-slide-show") :
-                            1,
+                            d("sm-slide-show") : 1,
                         centerMode: d("sm-center-mode") ?
-                            d("sm-center-mode") :
-                            false,
+                            d("sm-center-mode") : false,
                         centerPadding: 0,
                     },
                 },
@@ -417,11 +407,9 @@
                         arrows: d("xs-arrows") ? true : false,
                         dots: d("xs-dots") ? true : false,
                         slidesToShow: d("xs-slide-show") ?
-                            d("xs-slide-show") :
-                            1,
+                            d("xs-slide-show") : 1,
                         centerMode: d("xs-center-mode") ?
-                            d("xs-center-mode") :
-                            false,
+                            d("xs-center-mode") : false,
                         centerPadding: 0,
                     },
                 },
@@ -1363,11 +1351,11 @@
     // Logo Downloads
     function downloadFile(button, event) {
         event.preventDefault();
-        
+
         var fileName = button.name;
         var fileExtension = getFileExtension(fileName);
         var filePath = '';
-    
+
         var extensionToDirectory = {
             'pdf': 'storage/uploads/documents/',
             'png': 'storage/uploads/images/',
@@ -1376,14 +1364,14 @@
             'xls': 'storage/uploads/documents/',
             'ppt': 'storage/uploads/documents/',
         };
-    
+
         if (extensionToDirectory[fileExtension]) {
             filePath = extensionToDirectory[fileExtension];
         } else {
             alert('Tipe file tidak didukung.');
             return;
         }
-    
+
         var downloadLink = document.createElement('a');
         downloadLink.href = filePath + fileName;
         downloadLink.download = fileName;
@@ -1391,15 +1379,56 @@
         downloadLink.click();
         document.body.removeChild(downloadLink);
     }
-    
+
     function getFileExtension(fileName) {
         return fileName.split('.').pop().toLowerCase();
     }
-    
-    $('.dw-btn').on('click', function(event) {
+
+    $('.dw-btn').on('click', function (event) {
         downloadFile(this, event);
     });
-    
 
-    
+
+    function shareOnSocialMedia(platform) {
+        var articleUrl = window.location.href;
+
+        var shareUrl;
+        switch (platform) {
+            case 'facebook':
+                shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(articleUrl);
+                break;
+            case 'twitter':
+                shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(articleUrl);
+                break;
+            case 'linkedin':
+                shareUrl = 'https://www.linkedin.com/shareArticle?url=' + encodeURIComponent(articleUrl);
+                break;
+            case 'instagram':
+                alert('Instagram sharing is not supported programmatically. Please share manually.');
+                return;
+            default:
+                alert('Invalid platform.');
+                return;
+        }
+
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+
+    $(document).ready(function () {
+        $('.social-links li:nth-child(1) a').on('click', function () {
+            shareOnSocialMedia('facebook');
+        });
+
+        $('.social-links li:nth-child(2) a').on('click', function () {
+            shareOnSocialMedia('twitter');
+        });
+
+        $('.social-links li:nth-child(3) a').on('click', function () {
+            shareOnSocialMedia('linkedin');
+        });
+
+        $('.social-links li:nth-child(4) a').on('click', function () {
+            shareOnSocialMedia('instagram');
+        });
+    });
 })(jQuery);
