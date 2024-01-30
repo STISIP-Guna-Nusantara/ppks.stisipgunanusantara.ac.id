@@ -1361,6 +1361,7 @@
             'png': 'storage/uploads/images/',
             'jpg': 'storage/uploads/images/',
             'doc': 'storage/uploads/documents/',
+            'docx': 'storage/uploads/documents/',
             'xls': 'storage/uploads/documents/',
             'ppt': 'storage/uploads/documents/',
         };
